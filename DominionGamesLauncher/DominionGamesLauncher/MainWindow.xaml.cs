@@ -10,7 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Security.Policy;
-
+using System.Windows.Threading;
 
 namespace DominionGamesLauncher
 {
@@ -19,6 +19,7 @@ namespace DominionGamesLauncher
     /// </summary>
     public partial class MainWindow : Window
     {
+
         private string rootPath;
         private string versionFile;
         private string gameZip;
@@ -26,7 +27,6 @@ namespace DominionGamesLauncher
         const string gameName = "EnterNameHere"; // must be the name of your build zip as well
 
         private LauncherStatus _status;
-
         internal LauncherStatus Status
         {
             get => _status;
@@ -53,6 +53,10 @@ namespace DominionGamesLauncher
 
             }
         }
+
+
+        private DispatcherTimer timer;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -60,11 +64,61 @@ namespace DominionGamesLauncher
             versionFile = Path.Combine(rootPath, "version.txt");
             gameZip = Path.Combine(rootPath, gameName+".zip");
             gameExe = Path.Combine(rootPath, "Build", gameName + ".exe");
+
+            // Initialize the timer
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(15); // Update every second
+            timer.Tick += Timer_Tick;
+
+            // Start the timer
+            timer.Start();
         }
 
+        //is called once upon the first render of the window
+        private void window_ContentRendered(object sender, EventArgs e)
+        {
+
+            CheckForUpdates();
+        }
+
+        #region Click Methods
+        private void PlayButton_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(gameExe) && Status == LauncherStatus.Ready)
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
+                startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
+                Process.Start(startInfo);
+
+                Close();
+            }
+            else if (Status == LauncherStatus.Failed)
+            {
+                CheckForUpdates();
+            }
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AccountButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SupportButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
+
+
+        #region Updating game files
         private void CheckForUpdates()
         {
-            if(File.Exists(versionFile))
+            if (File.Exists(versionFile))
             {
                 Version localVersion = new Version(File.ReadAllText(versionFile));
                 GameVersionText.Text = localVersion.ToString();
@@ -103,8 +157,6 @@ namespace DominionGamesLauncher
             }
         }
 
-
-
         private async Task InstallGameFiles(bool _isUpdate, Version _onlineVersion)
         {
             try
@@ -139,27 +191,6 @@ namespace DominionGamesLauncher
             {
                 Status = LauncherStatus.Failed;
                 MessageBox.Show($"Error installing game files: {ex}");
-            }
-        }
-
-        private void window_ContentRendered(object sender, EventArgs e)
-        {
-            CheckForUpdates();
-        }
-
-        private void PlayButton_Click(object sender, EventArgs e)
-        {
-            if (File.Exists(gameExe) && Status == LauncherStatus.Ready)
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(gameExe);
-                startInfo.WorkingDirectory = Path.Combine(rootPath, "Build");
-                Process.Start(startInfo);
-
-                Close();
-            }
-            else if (Status == LauncherStatus.Failed)
-            {
-                CheckForUpdates();
             }
         }
 
@@ -229,6 +260,26 @@ namespace DominionGamesLauncher
             return onlineVersionText;
         }
 
+        #endregion
+
+
+        #region Timer methods
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            // Update the UTC time display
+            DisplayUTCTime();
+        }
+
+        void DisplayUTCTime()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            string timeStamp = utcNow.ToString("HH:mm") + " UTC"; ;
+            Console.WriteLine(timeStamp);
+            TimeStamp.Text = timeStamp;
+        }
+        #endregion
+
+        
     }
 
 

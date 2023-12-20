@@ -11,12 +11,21 @@
         ">
     <Grid>
         <Image Stretch="UniformToFill" Source="images/mainBackground.jpeg" HorizontalAlignment="Center"/>
+        <Image Stretch="Uniform" Source="images/dominiongameslogofinPNG.png" HorizontalAlignment="Left" Margin="944,456,0,22" Width="112" RenderOptions.BitmapScalingMode="HighQuality"/>
         <TextBlock x:Name="GameVersionText" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="20" Foreground="White" Margin="1075,0,0,0" Height="27"/>
         <TextBlock x:Name="LauncherVersionText" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="20" Foreground="White" Margin="1000,0,0,0" Height="27"/>
         <Button x:Name="PlayButton" Content="Checking For Updates" Click="PlayButton_Click" Height="60" FontSize="28" FontWeight="Bold" Foreground="#DDFFFFFF" Margin="0,467,683,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-        <!-- sidebar-->
-        <!--Border Background="#80FFFFFF" HorizontalAlignment="Left" Width="60" Margin="0,50,0,0" /-->
-        <!--Border Background="#80FFFFFF" VerticalAlignment="Top" Height="50" /-->
-        <TextBlock x:Name="TimeStamp" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="20" Foreground="Black" Margin="10,0,0,0" Height="27"/>
+        <!-- sidebar setup-->
+        <Border Background="#80FFFFFF" HorizontalAlignment="Left" Width="60" Margin="0,50,0,0" >
+            <Button x:Name="SupportButton" Content="Support" Click="SupportButton_Click" Height="60" FontSize="12" FontWeight="Bold" Foreground="#DDFFFFFF" VerticalAlignment="Top" HorizontalAlignment="Center" Width="60" Margin="0,352,0,0"/>
+
+        </Border>
+        <Border Background="#80FFFFFF" VerticalAlignment="Top" Height="50" />
+        <TextBlock x:Name="TimeStamp" Text="00:00 UTC"  VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" Foreground="Black" Margin="2,16,0,0" Height="18" Width="56"/>
+        <!-- sidebar items-->
+        <Button x:Name="AccountButton" Content="Account" Click="AccountButton_Click" Height="60" Width="60" FontSize="12" FontWeight="Bold" Foreground="#DDFFFFFF" Margin="0,337,1020,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        <Button x:Name="SettingsButton" Content="Settings" Click="SettingsButton_Click" Height="60" Width="60" FontSize="12" FontWeight="Bold" Foreground="#DDFFFFFF" Margin="0,467,1020,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+
+
     </Grid>
 </Window>

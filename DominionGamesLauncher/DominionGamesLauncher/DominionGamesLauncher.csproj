@@ -8,10 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\dominiongameslogofinPNG.png" />
     <None Remove="images\mainBackground.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="images\dominiongameslogofinPNG.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="images\mainBackground.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

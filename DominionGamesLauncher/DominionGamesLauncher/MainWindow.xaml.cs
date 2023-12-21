@@ -77,7 +77,6 @@ namespace DominionGamesLauncher
         //is called once upon the first render of the window
         private void window_ContentRendered(object sender, EventArgs e)
         {
-
             CheckForUpdates();
         }
 
